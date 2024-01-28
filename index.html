@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System</title>
+</head>
+<body>
+    <h1>Attendance System</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li style="color: {% if 'danger' in message %}red{% elif 'success' in message %}green{% endif %}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.class_name.label }}
+        {{ form.class_name }}
+        <button type="submit">Generate Link</button>
+    </form>
+    <h2>Generated Links:</h2>
+    <ul>
+        {% for link, data in links.items() %}
+            <li>{{ data['class_name'] }} - <a href="{{ url_for('attendance', link=link) }}">Link</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
